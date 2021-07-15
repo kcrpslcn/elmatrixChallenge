@@ -1,4 +1,4 @@
-import 'max_list.dart';
+import 'min_max_list.dart';
 
 class StepList extends MinMaxList<StepModel> {
   static const int minSteps = 1;

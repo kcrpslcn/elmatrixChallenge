@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'max_list.dart';
+import 'min_max_list.dart';
 
 part 'ingredient_list.g.dart';
 
