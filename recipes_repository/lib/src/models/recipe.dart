@@ -48,7 +48,6 @@ class Recipe {
     );
   }
 
-  //TODO
   @override
   int get hashCode {
     return title.hashCode ^

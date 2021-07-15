@@ -13,7 +13,7 @@ import 'recipes_repository.dart';
 import 'package:path/path.dart';
 
 class FirebaseRecipesRepository implements RecipesRepository {
-  final recipeCollection = FirebaseFirestore.instance.collection('c'); //TODO
+  final recipeCollection = FirebaseFirestore.instance.collection('recipes');
   final storage = FirebaseStorage.instance;
 
   @override
