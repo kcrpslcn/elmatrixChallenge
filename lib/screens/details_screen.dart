@@ -35,7 +35,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
         builder: (context, state) {
           return state.maybeMap(
               recipesLoaded: (state) {
-                //TODO bad state no element
                 final recipe = state.recipes
                     .firstWhere((recipe) => recipe.id == widget.id);
                 if (recipe.photoUri != null)
@@ -48,8 +47,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         tooltip: 'Delete Recipe',
                         icon: Icon(Icons.delete),
                         onPressed: () {
-                          context.read<RecipesBloc>().add(DeleteRecipe(recipe));
-                          Navigator.of(context).pop(recipe);
+                          Navigator.pushReplacementNamed(context, '/',
+                                  result: true)
+                              .then((value) {
+                            context
+                                .read<RecipesBloc>()
+                                .add(DeleteRecipe(recipe));
+                          });
+                          Navigator.pop(context);
                         },
                       )
                     ],
