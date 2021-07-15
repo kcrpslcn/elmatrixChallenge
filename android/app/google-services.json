@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "412855965535",
+    "project_id": "codechallenge-elmatrix-niclas",
+    "storage_bucket": "codechallenge-elmatrix-niclas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412855965535:android:2f82f32f37d2a1499ec8ea",
+        "android_client_info": {
+          "package_name": "com.example.elmatrix_niclas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412855965535-ckp73jtvjfqr51ilvudvs4rd1ev9fe9v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBut1OyjMDtOdX7TuorqlTtEt_XDrQpnyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412855965535-ckp73jtvjfqr51ilvudvs4rd1ev9fe9v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412855965535:android:25a17270c4021f9b9ec8ea",
+        "android_client_info": {
+          "package_name": "niclas.elmatrix.code_challenge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412855965535-ckp73jtvjfqr51ilvudvs4rd1ev9fe9v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBut1OyjMDtOdX7TuorqlTtEt_XDrQpnyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412855965535-ckp73jtvjfqr51ilvudvs4rd1ev9fe9v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
