@@ -1,1 +1,1 @@
-enum Tabs { recipes, stats } //TODO add info tab with my information
+enum Tabs { recipes, stats, info }

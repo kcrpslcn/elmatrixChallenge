@@ -1,16 +1,13 @@
-# elmatrix_niclas
+# Niclas elmatrix coding challenge
 
-A new Flutter project.
+Flutter code challenge for my application at elmatrix.
 
-## Getting Started
+### Contact information 
+Niclas Prock
+niclasprock@gmail.com
+0177 / 758 90 57
 
-This project is a starting point for a Flutter application.
+#### Infos
+    The google-services.json is included for this project.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+    Total cooking sessions considers only active recipes! There is no deleted flag or something similar.

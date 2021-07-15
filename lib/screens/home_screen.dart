@@ -1,5 +1,6 @@
 import 'package:elmatrix_niclas/blocs/tab/tab_bloc.dart';
 import 'package:elmatrix_niclas/models/models.dart';
+import 'package:elmatrix_niclas/widgets/info.dart';
 import 'package:elmatrix_niclas/widgets/recipes.dart';
 import 'package:elmatrix_niclas/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class HomeScreen extends StatelessWidget {
           appBar: AppBar(
             title: Text('Elmatrix Recipes'),
           ),
-          body: activeTab == Tabs.recipes ? Recipes() : Stats(),
+          body: _body(activeTab),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               Navigator.pushNamed(context, '/addRecipe');
@@ -29,5 +30,18 @@ class HomeScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  Widget _body(Tabs activeTab) {
+    switch (activeTab) {
+      case Tabs.recipes:
+        return Recipes();
+      case Tabs.stats:
+        return Stats();
+      case Tabs.info:
+        return Info();
+      default:
+        return Container();
+    }
   }
 }

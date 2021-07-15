@@ -4,7 +4,6 @@ import 'package:recipes_repository/src/models/step_list.dart';
 import 'package:uuid/uuid.dart';
 import '../entities/entities.dart';
 
-//TODO? use only primitives in model
 @immutable
 class Recipe {
   final String id;
@@ -69,7 +68,6 @@ class Recipe {
             id == other.id;
   }
 
-  // TODO look into Felix repository why and how he does this
   RecipeEntity toEntity() {
     return RecipeEntity(
       id: id,

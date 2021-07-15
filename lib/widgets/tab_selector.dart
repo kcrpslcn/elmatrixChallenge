@@ -20,12 +20,46 @@ class TabSelector extends StatelessWidget {
       onTap: (index) => onTabSelected(Tabs.values[index]),
       items: Tabs.values.map((tab) {
         return BottomNavigationBarItem(
-          icon: Icon(
-            tab == Tabs.recipes ? Icons.list : Icons.show_chart,
-          ),
-          label: tab == Tabs.stats ? 'Stats' : 'Recipes',
+          icon: _icon(tab),
+          label: _label(tab),
         );
       }).toList(),
     );
+  }
+
+  Widget _icon(Tabs tab) {
+    IconData icon;
+    switch (tab) {
+      case Tabs.stats:
+        icon = Icons.show_chart;
+        break;
+      case Tabs.recipes:
+        icon = Icons.list;
+        break;
+      case Tabs.info:
+        icon = Icons.person;
+        break;
+      default:
+        icon = Icons.error;
+    }
+    return Icon(icon);
+  }
+
+  String _label(Tabs tab) {
+    String label;
+    switch (tab) {
+      case Tabs.stats:
+        label = 'Stats';
+        break;
+      case Tabs.recipes:
+        label = 'Recipes';
+        break;
+      case Tabs.info:
+        label = 'Info';
+        break;
+      default:
+        label = 'N/A';
+    }
+    return label;
   }
 }
