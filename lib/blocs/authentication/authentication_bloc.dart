@@ -21,15 +21,39 @@ class AuthenticationBloc
   ) async* {
     yield* event.map(
       appStarted: (event) async* {
-        try {
-          final isSignedIn = await _userRepository.isAuthenticated();
-          if (!isSignedIn) await _userRepository.authenticate();
-          final userId = _userRepository.getUserId();
-          yield userId == null ? Unauthenticated() : Authenticated(userId);
-        } catch (_) {
-          yield Unauthenticated();
-        }
+        yield* _appStarted();
+      },
+      login: (event) async* {
+        yield AuthenticationState.authenticating();
+        yield* _signIn();
+      },
+      logout: (event) async* {
+        //TODO could be logged out for a different screen.
+        yield AuthenticationState.unauthenticated();
+        _userRepository.logout();
       },
     );
+  }
+
+  Stream<AuthenticationState> _appStarted() async* {
+    final isAuthenticated = await _userRepository.isAuthenticated();
+    yield* isAuthenticated ? _setAuthenticated() : _signIn();
+  }
+
+  Stream<AuthenticationState> _signIn() async* {
+    final authenticate = await _userRepository.authenticate();
+    yield* authenticate.fold((error) async* {
+      yield AuthenticationState.authenticationFailed(error);
+    }, (authenticated) async* {
+      yield* _setAuthenticated();
+    });
+  }
+
+  Stream<AuthenticationState> _setAuthenticated() async* {
+    yield* _userRepository.getUserId().fold((error) async* {
+      yield AuthenticationState.authenticationFailed(error);
+    }, (userId) async* {
+      yield AuthenticationState.authenticated(userId);
+    });
   }
 }

@@ -42,7 +42,10 @@ class RecipeApp extends StatelessWidget {
           '/': (context) {
             return BlocBuilder<AuthenticationBloc, AuthenticationState>(
               builder: (context, state) {
-                return state.maybeMap(
+                return state.map(
+                    initial: (_) => Center(child: CircularProgressIndicator()),
+                    authenticating: (_) =>
+                        Center(child: CircularProgressIndicator()),
                     authenticated: (state) => MultiBlocProvider(
                           providers: [
                             BlocProvider<TabBloc>(
@@ -56,10 +59,38 @@ class RecipeApp extends StatelessWidget {
                           ],
                           child: HomeScreen(),
                         ),
-                    unauthenticated: (state) => Center(
-                          child: Text('Could not authenticate with Firestore'),
+                    unauthenticated: (state) => Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                                child: Text(
+                                    'Could not authenticate with Firestore')),
+                            ElevatedButton(
+                              onPressed: () => context
+                                  .read<AuthenticationBloc>()
+                                  .add(AuthenticationEvent.login()),
+                              child: const Text('Login'),
+                            ),
+                          ],
                         ),
-                    orElse: () => Center(child: CircularProgressIndicator()));
+                    authenticationFailed: (state) {
+                      return Center(
+                        child: Text(state.failure.map(
+                            firebaseOperationNotAllowed: (name) => '''
+                            Backend operation was not allowed!
+                            Please contact support!
+
+                            Operation name: $name
+                            ''',
+                            notLoggedIn: (_) => 'There is no logged in user.',
+                            unknownError: (failure) => '''
+                            There was an unknown error!
+                            Please contact support!
+
+                            Error: ${failure.error}
+                            ''')),
+                      );
+                    });
               },
             );
           },

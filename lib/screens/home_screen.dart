@@ -1,3 +1,4 @@
+import 'package:elmatrix_niclas/blocs/authentication/authentication_bloc.dart';
 import 'package:elmatrix_niclas/blocs/tab/tab_bloc.dart';
 import 'package:elmatrix_niclas/models/models.dart';
 import 'package:elmatrix_niclas/widgets/info.dart';
@@ -14,6 +15,7 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text('Elmatrix Recipes'),
+            actions: activeTab == Tabs.info ? [_logoutWidget(context)] : null,
           ),
           body: _body(activeTab),
           floatingActionButton: FloatingActionButton(
@@ -43,5 +45,13 @@ class HomeScreen extends StatelessWidget {
       default:
         return Container();
     }
+  }
+
+  Widget _logoutWidget(BuildContext context) {
+    return IconButton(
+        onPressed: () => context
+            .read<AuthenticationBloc>()
+            .add(AuthenticationEvent.logout()),
+        icon: Icon(Icons.logout));
   }
 }

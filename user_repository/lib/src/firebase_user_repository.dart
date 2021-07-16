@@ -1,3 +1,4 @@
+import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -12,9 +13,26 @@ class FirebaseUserRepository implements UserRepository {
     return currentUser != null;
   }
 
-  Future<void> authenticate() {
-    return _firebaseAuth.signInAnonymously();
+  Future<Either<AuthenticationFailure, void>> authenticate() async {
+    try {
+      return Right(await _firebaseAuth.signInAnonymously());
+    } on FirebaseAuthException catch (_) {
+      return Left(AuthenticationFailure.firebaseOperationNotAllowed(
+          'signInAnonymously'));
+    } catch (error) {
+      return Left(AuthenticationFailure.unknownError(error));
+    }
   }
 
-  String? getUserId() => _firebaseAuth.currentUser?.uid;
+  Either<AuthenticationFailure, String> getUserId() {
+    final user = _firebaseAuth.currentUser;
+    return user == null
+        ? Left(AuthenticationFailure.notLoggedIn())
+        : Right(user.uid);
+  }
+
+  Future<void> logout() async {
+    //TODO? can this throw?
+    return _firebaseAuth.signOut();
+  }
 }
