@@ -16,3 +16,6 @@ niclasprock@gmail.com
     The google-services.json is included for this project.
 
     Total cooking sessions considers only active recipes! There is no deleted flag or something similar.
+
+#### Known Bugs
+    If you upload an image and leave the details screen immediately, the image will not be saved. This is due to the BlocListener not being triggered, because the Widget is already destroyed.
