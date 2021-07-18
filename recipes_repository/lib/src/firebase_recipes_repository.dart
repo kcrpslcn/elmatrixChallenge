@@ -29,7 +29,8 @@ class FirebaseRecipesRepository implements RecipesRepository {
   @override
   Stream<List<Recipe>> recipes() {
     return recipeCollection.snapshots().map((snapshot) {
-      final recipesOrFailures = [1].map((doc) => Recipe.fromJson({'a': 1}));
+      final recipesOrFailures =
+          snapshot.docs.map((doc) => Recipe.fromJson(doc.data()));
       recipesOrFailures.where((element) => element.isLeft).forEach((element) {
         // This should be logged somewhere instead of just printing it.
         print(element.left);
@@ -55,8 +56,8 @@ class FirebaseRecipesRepository implements RecipesRepository {
     final filename = basename(image.path);
     final storageReference = storage.ref().child('images/$filename');
     final uploadTask = storageReference.putFile(image);
-    final x = await uploadTask.whenComplete(() {});
-    var imageUrl = await x.ref.getDownloadURL();
+    final taskSnapshot = await uploadTask.whenComplete(() {});
+    final imageUrl = await taskSnapshot.ref.getDownloadURL();
     return imageUrl;
   }
 }
