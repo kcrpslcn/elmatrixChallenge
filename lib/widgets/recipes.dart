@@ -1,5 +1,6 @@
 import 'package:elmatrix_niclas/blocs/recipes/recipes_bloc.dart';
 import 'package:elmatrix_niclas/screens/screens.dart';
+import 'package:elmatrix_niclas/widgets/recipe_failure_snack_bar.dart';
 import 'package:elmatrix_niclas/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -11,7 +12,11 @@ class Recipes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RecipesBloc, RecipesState>(
+    return BlocConsumer<RecipesBloc, RecipesState>(
+      listener: (context, state) {
+        if (state is RecipesLoaded && state.failures.isNotEmpty)
+          _showRecipeFailureSnackBar(context, state);
+      },
       builder: (context, state) {
         return state.maybeMap(
             recipesLoading: (state) => LoadingIndicator(),
@@ -59,6 +64,33 @@ class Recipes extends StatelessWidget {
             },
             orElse: () => Container());
       },
+    );
+  }
+
+  Future<void> _showRecipeFailureSnackBar(
+      BuildContext context, RecipesLoaded state) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      RecipeFailureSnackBar(
+          failures: state.failures,
+          onShow: () async {
+            await showDialog(
+              context: context,
+              builder: (BuildContext context) => SimpleDialog(
+                title: const Text('Recipes with an error state'),
+                children: <Widget>[
+                  ...state.failures
+                      .map((e) => e.map(
+                          fromJsonError: (error) => Card(
+                                color: Colors.redAccent,
+                                child: Text('JSON error! json: ${error.json}'),
+                              ),
+                          unknownError: (error) =>
+                              Text('Unknown Error! ${error.error.toString()}')))
+                      .toList()
+                ],
+              ),
+            );
+          }),
     );
   }
 }

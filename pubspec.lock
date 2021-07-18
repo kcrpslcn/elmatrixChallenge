@@ -205,7 +205,7 @@ packages:
     source: hosted
     version: "2.0.2"
   either_dart:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: either_dart
       url: "https://pub.dartlang.org"

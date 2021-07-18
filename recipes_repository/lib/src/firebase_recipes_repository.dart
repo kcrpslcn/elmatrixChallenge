@@ -6,8 +6,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:either_dart/either.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
+import 'package:recipes_repository/recipes_repository.dart';
 
 import 'models/models.dart';
 import 'recipes_repository.dart';
@@ -27,23 +29,9 @@ class FirebaseRecipesRepository implements RecipesRepository {
   }
 
   @override
-  Stream<List<Recipe>> recipes() {
-    return recipeCollection.snapshots().map((snapshot) {
-      final recipesOrFailures =
-          snapshot.docs.map((doc) => Recipe.fromJson(doc.data()));
-      recipesOrFailures.where((element) => element.isLeft).forEach((element) {
-        // This should be logged somewhere instead of just printing it.
-        print(element.left);
-      });
-      // We could also return an either<RecipeFailure,List<Recipe>> here
-      // if there are recipes and all of them are failures, we return a failure.
-      // if(recipesOrFailures.isNotEmpty && recipesOrFailures.every((element) => element.isLeft))
-      // return Left(RecipeFailure.failedToTransformJsonToRecipe)
-      return recipesOrFailures
-          .where((element) => element.isRight)
-          .map((e) => e.right)
-          .toList();
-    });
+  Stream<List<Either<RecipeFailure, Recipe>>> recipes() {
+    return recipeCollection.snapshots().map((snapshot) =>
+        snapshot.docs.map((doc) => Recipe.fromJson(doc.data())).toList());
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:either_dart/either.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:recipes_repository/recipes_repository.dart';
 
@@ -50,7 +51,15 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
   }
 
   Stream<RecipesState> _mapRecipesUpdateToState(RecipesUpdated event) async* {
-    yield RecipesLoaded(event.recipes);
+    final recipes = event.recipes
+        .where((element) => element.isRight)
+        .map((e) => e.right)
+        .toList();
+    final failures = event.recipes
+        .where((element) => element.isLeft)
+        .map((e) => e.left)
+        .toList();
+    yield RecipesState.recipesLoaded(recipes, failures);
   }
 
   @override

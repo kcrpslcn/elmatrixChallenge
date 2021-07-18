@@ -6,6 +6,6 @@ class RecipesEvent with _$RecipesEvent {
   const factory RecipesEvent.addRecipe(Recipe recipe) = AddRecipe;
   const factory RecipesEvent.updateRecipe(Recipe updatedRecipe) = UpdateRecipe;
   const factory RecipesEvent.deleteRecipe(Recipe recipe) = DeleteRecipe;
-  const factory RecipesEvent.recipesUpdated(List<Recipe> recipes) =
-      RecipesUpdated;
+  const factory RecipesEvent.recipesUpdated(
+      List<Either<RecipeFailure, Recipe>> recipes) = RecipesUpdated;
 }

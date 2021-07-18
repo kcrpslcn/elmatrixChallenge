@@ -5,6 +5,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:either_dart/either.dart';
+import 'package:recipes_repository/recipes_repository.dart';
+
 import 'models/models.dart';
 
 abstract class RecipesRepository {
@@ -12,7 +15,7 @@ abstract class RecipesRepository {
 
   Future<void> deleteRecipe(Recipe recipe);
 
-  Stream<List<Recipe>> recipes();
+  Stream<List<Either<RecipeFailure, Recipe>>> recipes();
 
   Future<void> updateRecipe(Recipe recipe);
 
