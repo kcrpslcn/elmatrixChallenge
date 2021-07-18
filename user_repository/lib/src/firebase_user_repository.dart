@@ -32,7 +32,6 @@ class FirebaseUserRepository implements UserRepository {
   }
 
   Future<void> logout() async {
-    //TODO? can this throw?
     return _firebaseAuth.signOut();
   }
 }
