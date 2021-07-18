@@ -73,6 +73,18 @@ class RecipeApp extends StatelessWidget {
                             ),
                           ],
                         ),
+                    loggedOut: (state) => Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(child: Text('Logged out from the app.')),
+                            ElevatedButton(
+                              onPressed: () => context
+                                  .read<AuthenticationBloc>()
+                                  .add(AuthenticationEvent.login()),
+                              child: const Text('Login'),
+                            ),
+                          ],
+                        ),
                     authenticationFailed: (state) {
                       return Center(
                         child: Text(state.failure.map(

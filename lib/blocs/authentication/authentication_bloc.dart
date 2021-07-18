@@ -28,9 +28,7 @@ class AuthenticationBloc
         yield* _signIn();
       },
       logout: (event) async* {
-        //TODO could be AuthenticationState.loggedOut
-        // that way it could be handled like a different case.
-        yield AuthenticationState.unauthenticated();
+        yield AuthenticationState.loggedOut();
         _userRepository.logout();
       },
     );

@@ -7,6 +7,7 @@ abstract class AuthenticationState with _$AuthenticationState {
   const factory AuthenticationState.authenticated(String userId) =
       Authenticated;
   const factory AuthenticationState.unauthenticated() = Unauthenticated;
+  const factory AuthenticationState.loggedOut() = LoggedOut;
   const factory AuthenticationState.authenticationFailed(
       AuthenticationFailure failure) = AuthenticationFailed;
 }
