@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'min_max_list.dart';
 
 part 'ingredient_list.g.dart';
 
+@immutable
 class IngredientList extends MinMaxList<Ingredient> {
   static const int minIngredients = 1;
   static const int maxIngredients = 30;

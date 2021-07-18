@@ -68,6 +68,9 @@ class Recipe {
             id == other.id;
   }
 
+  // Could be replaced with toJson, instead of returning an entity
+  // we do not need to know about the entity?
+  // Same goes for fromEntity, this could be fromSnapshot
   RecipeEntity toEntity() {
     return RecipeEntity(
       id: id,

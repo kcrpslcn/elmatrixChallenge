@@ -42,8 +42,4 @@ class RecipeEntity extends Equatable {
     if (data == null) throw Exception();
     return RecipeEntity.fromJson(data);
   }
-
-  Map<String, Object?> toDocument() {
-    return this.toJson();
-  }
 }

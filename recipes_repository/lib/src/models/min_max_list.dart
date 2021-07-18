@@ -1,4 +1,7 @@
-class MinMaxList<T> {
+import 'package:flutter/foundation.dart';
+
+@immutable
+abstract class MinMaxList<T> {
   final int maxCount;
   final int minCount;
   final List<T> _list;

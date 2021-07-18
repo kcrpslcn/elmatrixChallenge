@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
+
 import 'min_max_list.dart';
 
+@immutable
 class StepList extends MinMaxList<StepModel> {
   static const int minSteps = 1;
   static const int maxSteps = 10;

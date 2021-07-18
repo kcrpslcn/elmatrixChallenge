@@ -7,10 +7,11 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
+
 import 'entities/entities.dart';
 import 'models/models.dart';
 import 'recipes_repository.dart';
-import 'package:path/path.dart';
 
 class FirebaseRecipesRepository implements RecipesRepository {
   final recipeCollection = FirebaseFirestore.instance.collection('recipes');
@@ -18,9 +19,7 @@ class FirebaseRecipesRepository implements RecipesRepository {
 
   @override
   Future<void> addNewRecipe(Recipe recipe) {
-    return recipeCollection
-        .doc(recipe.id)
-        .set((recipe.toEntity().toDocument()));
+    return recipeCollection.doc(recipe.id).set((recipe.toEntity().toJson()));
   }
 
   @override
@@ -40,9 +39,7 @@ class FirebaseRecipesRepository implements RecipesRepository {
 
   @override
   Future<void> updateRecipe(Recipe recipe) {
-    return recipeCollection
-        .doc(recipe.id)
-        .update(recipe.toEntity().toDocument());
+    return recipeCollection.doc(recipe.id).update(recipe.toEntity().toJson());
   }
 
   @override
