@@ -11,5 +11,5 @@ class IngredientListConverterFailure with _$IngredientListConverterFailure {
   const factory IngredientListConverterFailure.decodeFailure(
       String ingredientJson, Object? error) = DecodeFailure;
   const factory IngredientListConverterFailure.unknownError(Object? error) =
-      UnknownError;
+      UnknownIngredientListError;
 }
