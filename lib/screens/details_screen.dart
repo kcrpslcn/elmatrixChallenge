@@ -210,7 +210,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   Future chooseFile(BuildContext context, Recipe recipe) async {
-    await _picker.getImage(source: ImageSource.gallery).then((image) {
+    await _picker.pickImage(source: ImageSource.gallery).then((image) {
       if (image != null) {
         context.read<ImageBloc>().add(PickImage(File(image.path)));
         uploadFile(context, recipe, File(image.path));
@@ -219,7 +219,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   Future<void> takeImage(BuildContext context, Recipe recipe) async {
-    await _picker.getImage(source: ImageSource.camera).then((image) {
+    await _picker.pickImage(source: ImageSource.camera).then((image) {
       if (image != null) {
         context.read<ImageBloc>().add(PickImage(File(image.path)));
         uploadFile(context, recipe, File(image.path));
