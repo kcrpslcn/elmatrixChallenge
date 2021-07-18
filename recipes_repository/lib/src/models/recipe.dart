@@ -87,7 +87,7 @@ class Recipe {
     try {
       return _fromJson(json);
     } catch (e) {
-      return Left(RecipeFailure.fromJsonError(json));
+      return Left(RecipeFailure.fromJsonError(json, e));
     }
   }
 

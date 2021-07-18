@@ -4,7 +4,7 @@ part 'recipe_failure.freezed.dart';
 
 @freezed
 class RecipeFailure with _$RecipeFailure {
-  const factory RecipeFailure.fromJsonError(Map<String, dynamic> json) =
-      FromJsonError;
+  const factory RecipeFailure.fromJsonError(
+      Map<String, dynamic> json, Object? error) = FromJsonError;
   const factory RecipeFailure.unknownError(Object? error) = UnknownError;
 }
