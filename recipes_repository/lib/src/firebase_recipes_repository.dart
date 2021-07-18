@@ -9,7 +9,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 
-import 'entities/entities.dart';
 import 'models/models.dart';
 import 'recipes_repository.dart';
 
@@ -19,7 +18,7 @@ class FirebaseRecipesRepository implements RecipesRepository {
 
   @override
   Future<void> addNewRecipe(Recipe recipe) {
-    return recipeCollection.doc(recipe.id).set((recipe.toEntity().toJson()));
+    return recipeCollection.doc(recipe.id).set((recipe.toJson()));
   }
 
   @override
@@ -30,16 +29,25 @@ class FirebaseRecipesRepository implements RecipesRepository {
   @override
   Stream<List<Recipe>> recipes() {
     return recipeCollection.snapshots().map((snapshot) {
-      final x = snapshot.docs
-          .map((doc) => Recipe.fromEntity(RecipeEntity.fromSnapshot(doc)))
+      final recipesOrFailures = [1].map((doc) => Recipe.fromJson({'a': 1}));
+      recipesOrFailures.where((element) => element.isLeft).forEach((element) {
+        // This should be logged somewhere instead of just printing it.
+        print(element.left);
+      });
+      // We could also return an either<RecipeFailure,List<Recipe>> here
+      // if there are recipes and all of them are failures, we return a failure.
+      // if(recipesOrFailures.isNotEmpty && recipesOrFailures.every((element) => element.isLeft))
+      // return Left(RecipeFailure.failedToTransformJsonToRecipe)
+      return recipesOrFailures
+          .where((element) => element.isRight)
+          .map((e) => e.right)
           .toList();
-      return x;
     });
   }
 
   @override
   Future<void> updateRecipe(Recipe recipe) {
-    return recipeCollection.doc(recipe.id).update(recipe.toEntity().toJson());
+    return recipeCollection.doc(recipe.id).update(recipe.toJson());
   }
 
   @override

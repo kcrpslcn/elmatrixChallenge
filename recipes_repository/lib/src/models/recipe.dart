@@ -1,7 +1,10 @@
+import 'package:either_dart/either.dart';
 import 'package:meta/meta.dart';
+import 'package:recipes_repository/src/failures/recipe_failure.dart';
 import 'package:recipes_repository/src/models/ingredient_list.dart';
 import 'package:recipes_repository/src/models/step_list.dart';
 import 'package:uuid/uuid.dart';
+
 import '../entities/entities.dart';
 
 @immutable
@@ -68,10 +71,7 @@ class Recipe {
             id == other.id;
   }
 
-  // Could be replaced with toJson, instead of returning an entity
-  // we do not need to know about the entity?
-  // Same goes for fromEntity, this could be fromSnapshot
-  RecipeEntity toEntity() {
+  Map<String, dynamic> toJson() {
     return RecipeEntity(
       id: id,
       title: title,
@@ -80,11 +80,21 @@ class Recipe {
       ingredients: ingredients,
       steps: steps,
       numberOfCookings: numberOfCookings,
-    );
+    ).toJson();
   }
 
-  static Recipe fromEntity(RecipeEntity entity) {
-    return Recipe(
+  static Either<RecipeFailure, Recipe> fromJson(Map<String, dynamic> json) {
+    try {
+      return _fromJson(json);
+    } catch (e) {
+      return Left(RecipeFailure.fromJsonError(json));
+    }
+  }
+
+  /// Throws an [Exception] if the json can not be converted to a [Recipe]
+  static Right<RecipeFailure, Recipe> _fromJson(Map<String, dynamic> json) {
+    final entity = RecipeEntity.fromJson(json);
+    return Right(Recipe(
       id: entity.id,
       title: entity.title,
       subtitle: entity.subtitle,
@@ -92,6 +102,6 @@ class Recipe {
       ingredients: entity.ingredients,
       steps: entity.steps,
       numberOfCookings: entity.numberOfCookings,
-    );
+    ));
   }
 }

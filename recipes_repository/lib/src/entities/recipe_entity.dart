@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:recipes_repository/recipes_repository.dart';
@@ -36,10 +35,4 @@ class RecipeEntity extends Equatable {
 
   @override
   List<Object?> get props => [id];
-
-  static RecipeEntity fromSnapshot(DocumentSnapshot snap) {
-    final data = snap.data();
-    if (data == null) throw Exception();
-    return RecipeEntity.fromJson(data);
-  }
 }
