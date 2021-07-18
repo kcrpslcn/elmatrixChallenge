@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:either_dart/either.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:recipes_repository/recipes_repository.dart';
 
@@ -26,10 +25,13 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
       uploadImage: (event) async* {
         yield ImageUploading();
         final uri = await _recipesRepository.uploadImage(event.image);
-        yield ImageUploaded(uri);
+        yield uri.fold((left) => ImageUploadFailed(left, event.recipe),
+            (right) => ImageUploaded(right, event.recipe));
       },
       loadFromUri: (event) async* {
-        yield ImageUploaded(Right(event.uri));
+        yield event.uri != null
+            ? ImageUploaded(event.uri!, event.recipe)
+            : NoImage();
       },
     );
   }
