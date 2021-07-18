@@ -5,5 +5,6 @@ abstract class ImageState with _$ImageState {
   const factory ImageState.initial() = Initial;
   const factory ImageState.imagePicked(File image) = ImagePicked;
   const factory ImageState.imageUploading() = ImageUploading;
-  const factory ImageState.imageUploaded(String uri) = ImageUploaded;
+  const factory ImageState.imageUploaded(Either<RecipeFailure, String> uri) =
+      ImageUploaded;
 }

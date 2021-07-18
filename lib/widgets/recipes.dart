@@ -79,13 +79,14 @@ class Recipes extends StatelessWidget {
                 title: const Text('Recipes with an error state'),
                 children: <Widget>[
                   ...state.failures
-                      .map((e) => e.map(
+                      .map((e) => e.maybeMap(
                           fromJsonError: (error) => Card(
                                 color: Colors.redAccent,
                                 child: Text('JSON error! json: ${error.json}'),
                               ),
                           unknownError: (error) =>
-                              Text('Unknown Error! ${error.error.toString()}')))
+                              Text('Unknown Error! ${error.error.toString()}'),
+                          orElse: () => const Text('Unknown Error Code!')))
                       .toList()
                 ],
               ),

@@ -94,10 +94,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 listener: (context, state) {
                               return state.maybeMap<void>(
                                   imageUploaded: (state) {
-                                    if (recipe.photoUri != state.uri)
+                                    if (state.uri.isRight &&
+                                        recipe.photoUri != state.uri.right)
                                       context.read<RecipesBloc>().add(
                                           UpdateRecipe(recipe.copyWith(
-                                              photoUri: state.uri)));
+                                              photoUri: state.uri.right)));
                                   },
                                   orElse: () {});
                             }, builder: (context, state) {
@@ -110,7 +111,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                         onTap: () => openEditPictureDialog(
                                             context, recipe),
                                         child: Image.network(
-                                          state.uri,
+                                          state.uri.isRight
+                                              ? state.uri.right
+                                              : 'error message',
                                           width: 150,
                                           height: 150,
                                         ),

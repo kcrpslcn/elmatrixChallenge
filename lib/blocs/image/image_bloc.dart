@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:either_dart/either.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:recipes_repository/recipes_repository.dart';
 
@@ -28,7 +29,7 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
         yield ImageUploaded(uri);
       },
       loadFromUri: (event) async* {
-        yield ImageUploaded(event.uri);
+        yield ImageUploaded(Right(event.uri));
       },
     );
   }

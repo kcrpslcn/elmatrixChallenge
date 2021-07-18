@@ -19,13 +19,18 @@ class FirebaseRecipesRepository implements RecipesRepository {
   final storage = FirebaseStorage.instance;
 
   @override
-  Future<void> addNewRecipe(Recipe recipe) {
-    return recipeCollection.doc(recipe.id).set((recipe.toJson()));
+  Future<Either<RecipeFailure, void>> addNewRecipe(Recipe recipe) async {
+    return recipe.toJson().fold((left) => Left(left),
+        (right) => Right(recipeCollection.doc(recipe.id).set(right)));
   }
 
   @override
-  Future<void> deleteRecipe(Recipe recipe) async {
-    return recipeCollection.doc(recipe.id).delete();
+  Future<Either<RecipeFailure, void>> deleteRecipe(Recipe recipe) async {
+    try {
+      return Right(recipeCollection.doc(recipe.id).delete());
+    } catch (e) {
+      return Left(RecipeFailure.deleteRecipeFailed(e));
+    }
   }
 
   @override
@@ -35,17 +40,26 @@ class FirebaseRecipesRepository implements RecipesRepository {
   }
 
   @override
-  Future<void> updateRecipe(Recipe recipe) {
-    return recipeCollection.doc(recipe.id).update(recipe.toJson());
+  Future<Either<RecipeFailure, void>> updateRecipe(Recipe recipe) async {
+    return recipe.toJson().fold((left) => Left(left),
+        (right) => Right(recipeCollection.doc(recipe.id).update(right)));
   }
 
   @override
-  Future<String> uploadImage(File image) async {
+  Future<Either<RecipeFailure, String>> uploadImage(File image) async {
+    try {
+      return await _uploadImage(image);
+    } catch (e) {
+      return Left(RecipeFailure.imageUploadFailed(e));
+    }
+  }
+
+  Future<Right<RecipeFailure, String>> _uploadImage(File image) async {
     final filename = basename(image.path);
     final storageReference = storage.ref().child('images/$filename');
     final uploadTask = storageReference.putFile(image);
     final taskSnapshot = await uploadTask.whenComplete(() {});
     final imageUrl = await taskSnapshot.ref.getDownloadURL();
-    return imageUrl;
+    return Right(imageUrl);
   }
 }

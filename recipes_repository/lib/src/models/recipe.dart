@@ -71,16 +71,20 @@ class Recipe {
             id == other.id;
   }
 
-  Map<String, dynamic> toJson() {
-    return RecipeEntity(
-      id: id,
-      title: title,
-      subtitle: subtitle,
-      photoUri: photoUri,
-      ingredients: ingredients,
-      steps: steps,
-      numberOfCookings: numberOfCookings,
-    ).toJson();
+  Either<RecipeFailure, Map<String, dynamic>> toJson() {
+    try {
+      return Right(RecipeEntity(
+        id: id,
+        title: title,
+        subtitle: subtitle,
+        photoUri: photoUri,
+        ingredients: ingredients,
+        steps: steps,
+        numberOfCookings: numberOfCookings,
+      ).toJson());
+    } catch (e) {
+      return Left(RecipeFailure.toJsonError(this, e));
+    }
   }
 
   static Either<RecipeFailure, Recipe> fromJson(Map<String, dynamic> json) {
